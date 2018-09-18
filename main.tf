@@ -24,8 +24,8 @@ resource "google_cloudfunctions_function" "function" {
   project               = "${google_project.api_police_project.project_id}"
   region                = "us-central1"
   name                  = "apiPolice"
-  source_archive_bucket = "reechar-utility"
-  source_archive_object = "gcf.zip"
+  source_archive_bucket = "${google_storage_bucket.gcf_source_bucket.name}"
+  source_archive_object = "${google_storage_bucket_object.gcf_zip.name}"
   trigger_topic         = "${google_pubsub_topic.api_enable_topic.name}"
   retry_on_failure      = true
   depends_on            = ["google_project_service.cloudfunctions", "google_project_service.servicemanagement"]

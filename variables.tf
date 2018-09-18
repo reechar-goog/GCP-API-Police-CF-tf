@@ -19,3 +19,11 @@ variable "export_sink" {
   description = "StackDriver log export sink"
   default     = "service-activate-sd-sink"
 }
+
+variable "gcs_bucket" {
+  description = "bucket to hold cloud function source"
+}
+
+variable "gcf_zip" {
+  description = "path to zip file to upload"
+}
