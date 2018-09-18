@@ -1,6 +1,6 @@
 # GCP-API-Police-CF-tf
 
-This module is a way to deploy a custom Cloud Function that monitors a GCP Organization for projects that enable unapproved Google APIs. Upon detection that an unapproved API has been enabled, the Cloud Function will actively and automatically disable the API in violation of this policy. This is accomplished by exporting Cloud Audit logs looking for the enablement of APIs under an organization. Those logs are then exported via a Stackdriver Organizational Aggregated Export sink to a Pub/Sub topic, which will then trigger the Cloud Function. This module will provision and connect all the necessary pieces to accomplish this.
+This module is a way to deploy a custom Cloud Function that monitors and disables unapproved Google APIs within a GCP Organization. Upon detection that an unapproved API has been enabled, the Cloud Function will actively and automatically disable the API in violation of this policy. This is accomplished by exporting Cloud Audit logs looking for the enablement of APIs under an organization. Those logs are then exported via a Stackdriver Organizational Aggregated Export sink to a Pub/Sub topic, which will then trigger the Cloud Function. This module will provision and connect all the necessary pieces to accomplish this.
 
 ## Usage
 
