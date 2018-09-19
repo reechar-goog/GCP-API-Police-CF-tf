@@ -32,7 +32,7 @@ resource "google_logging_organization_sink" "api_sink" {
   org_id           = "${var.org_id}"
   include_children = true
   destination      = "pubsub.googleapis.com/projects/${google_project.api_police_project.project_id}/topics/${var.pubsub_topic}"
-  filter           = "resource.labels.method=\"google.api.servicemanagement.v1.ServiceManager.EnableService\" OR resource.labels.method=\"google.api.servicemanagement.v1.ServiceManagerV1.ActivateServices\""
+  filter           = "resource.labels.method=\"google.api.servicemanagement.v1.ServiceManager.EnableService\" OR resource.labels.method=\"google.api.servicemanagement.v1.ServiceManager.ActivateServices\""
 }
 
 resource "google_cloudfunctions_function" "function" {
