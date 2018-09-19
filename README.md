@@ -52,6 +52,8 @@ $ gcloud services enable translate.googleapis.com #try to enable blocked transla
 $ gcloud services enable vision.googleapis.com #enable not blocked API
 $ gcloud services list #verify that vision.googleapis is enabled, but translate.googleapis is not
 ```
+## Defense in Depth
 
+As a word of caution, this module is not meant to be a standalone set it and forget it solution. I recommend the practice of [defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to have multiple tiers of defense towards addressing this security issue. This solution complements well with a policy scanning tool like [Forseti Security](https://forsetisecurity.org/).
 
 
