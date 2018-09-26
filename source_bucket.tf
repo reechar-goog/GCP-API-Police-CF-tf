@@ -18,8 +18,28 @@ resource "google_storage_bucket" "gcf_source_bucket" {
   project = "${google_project.api_police_project.project_id}"
 }
 
-resource "google_storage_bucket_object" "gcf_zip" {
+resource "google_storage_bucket_object" "gcf_zip_gcs_object" {
   name   = "gcf.zip"
   bucket = "${google_storage_bucket.gcf_source_bucket.name}"
-  source = "${var.gcf_zip}"
+  source = "${data.archive_file.gcf_zip_file.output_path}"
+}
+
+locals {
+  index_file   = "${var.path_to_gcf_source}/index.js"
+  package_file = "${var.path_to_gcf_source}/package.json"
+}
+
+data "archive_file" "gcf_zip_file" {
+  type        = "zip"
+  output_path = "${var.path_to_gcf_source}/gcf.zip"
+
+  source {
+    content  = "${file(local.index_file)}"
+    filename = "index.js"
+  }
+
+  source {
+    content  = "${file(local.package_file)}"
+    filename = "package.json"
+  }
 }

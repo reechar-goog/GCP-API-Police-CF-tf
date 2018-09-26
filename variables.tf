@@ -39,6 +39,6 @@ variable "gcs_bucket" {
   description = "bucket to hold cloud function source"
 }
 
-variable "gcf_zip" {
-  description = "path to zip file to upload"
+variable "path_to_gcf_source" {
+  description = "absolute path to git clone of API Police Source code"
 }
