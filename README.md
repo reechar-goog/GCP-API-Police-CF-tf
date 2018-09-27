@@ -11,40 +11,34 @@ $ git clone https://github.com/reechar-goog/GCP-API-Police-CF.git
 
 2. Make any modifications by following instructions from [README](https://github.com/reechar-goog/GCP-API-Police-CF/blob/master/README.md) and modify [index.js](https://github.com/reechar-goog/GCP-API-Police-CF/blob/master/index.js) 
 
-3. Zip up the code
-```shell
-$ cd GCP-API-Police-CF
-$ zip gcf.zip *
-```
-
-4. Create terraform file main.tf and fill out with your organizations information
+3. Create terraform file main.tf and fill out with your organizations information
 
 ```hcl
 module "gcf_api_police" {
   source = "github.com/reechar-goog/GCP-API-Police-CF-tf"
-  project_id = "reechar-gcp-api-police"                   #Change to unique project ID
-  org_id     = "1234567890"                               #Change to org id for Organization to be monitored
-  billing_id = "ABCDEF-ABCDEF-ABCDEF"                     #Change to your billing account
-  gcs_bucket = "reechar-gcf"                              #Change to unique GCS bucket name
-  gcf_zip    = "/Users/reechar/GCP-API-Police-CF/gcf.zip" #Path to zip file created in step 3
+  project_id = "reechar-gcp-api-police"                       #Change to unique project ID
+  org_id     = "1234567890"                                   #Change to org id for Organization to be monitored
+  billing_id = "ABCDEF-ABCDEF-ABCDEF"                         #Change to your billing account
+  gcs_bucket = "reechar-gcf"                                  #Change to unique GCS bucket name
+  path_to_gcf_source = "/Users/reechar/git/GCP-API-Police-CF" #Path to gcf source git clone
 }
 
 ```
-5. Initialize terraform and ensure the google provider and this module init with no errors. Run in directory containing main.tf
+4. Initialize terraform and ensure the google provider and this module init with no errors. Run in directory containing main.tf
 ```shell
 $ terraform init
 ```
 
-6. Plan terraform and double check output and make sure it matches expectations
+5. Plan terraform and double check output and make sure it matches expectations
 ```shell
 $ terraform plan
 ```
-7. Run terraform. Should take ~5 minutes from a clean start. Ensure no errors
+6. Run terraform. Should take ~5 minutes from a clean start. Ensure no errors
 ```shell
 $ terraform apply
 ```
 
-8. Test and Verify. If you deployed the Cloud Function without modifying the sample code, `translate.googleapis.com` should be blocked. 
+7. Test and Verify. If you deployed the Cloud Function without modifying the sample code, `translate.googleapis.com` should be blocked. 
 ```shell
 $ gcloud config set project <project_id that you used in step 4>
 $ gcloud services list #list currently enabled APIs in project
