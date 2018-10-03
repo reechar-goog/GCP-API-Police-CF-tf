@@ -4,41 +4,21 @@ This module is a way to deploy a custom Cloud Function that monitors and disable
 
 ## Usage
 
-1. Get a copy of the source for the Cloud Function:
-```shell
-$ git clone https://github.com/reechar-goog/GCP-API-Police-CF.git
-```
-
-2. Make any modifications by following instructions from [README](https://github.com/reechar-goog/GCP-API-Police-CF/blob/master/README.md) and modify [index.js](https://github.com/reechar-goog/GCP-API-Police-CF/blob/master/index.js) 
-
-3. Create terraform file main.tf and fill out with your organizations information
-
 ```hcl
 module "gcf_api_police" {
   source = "github.com/reechar-goog/GCP-API-Police-CF-tf"
-  project_id = "reechar-gcp-api-police"                       #Change to unique project ID
-  org_id     = "1234567890"                                   #Change to org id for Organization to be monitored
-  billing_id = "ABCDEF-ABCDEF-ABCDEF"                         #Change to your billing account
-  gcs_bucket = "reechar-gcf"                                  #Change to unique GCS bucket name
-  path_to_gcf_source = "/Users/reechar/git/GCP-API-Police-CF" #Path to gcf source git clone
+  
+  project_id = "reechar-gcp-api-police"              #Change to unique project ID
+  org_id     = "1234567890"                          #Change to org id for Organization to be monitored
+  billing_id = "ABCDEF-ABCDEF-ABCDEF"                #Change to your billing account
+  gcs_bucket = "reechar-gcf"                         #Change to unique GCS bucket name
+  blocked_api_list = ["translate.googleapis.com"]    #List of Google APIs to block, Translate API used as example
 }
-
-```
-4. Initialize terraform and ensure the google provider and this module init with no errors. Run in directory containing main.tf
-```shell
-$ terraform init
 ```
 
-5. Plan terraform and double check output and make sure it matches expectations
-```shell
-$ terraform plan
-```
-6. Run terraform. Should take ~5 minutes from a clean start. Ensure no errors
-```shell
-$ terraform apply
-```
+## Test and Verify. 
 
-7. Test and Verify. If you deployed the Cloud Function without modifying the sample code, `translate.googleapis.com` should be blocked. 
+If you deployed the Cloud Function without modifying the list `translate.googleapis.com` should be blocked. 
 ```shell
 $ gcloud config set project <project_id that you used in step 4>
 $ gcloud services list #list currently enabled APIs in project
