@@ -13,6 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+data "template_file" "cf" {
+  template = "${file("${path.module}/index.js.tftemplate")}"
+
+  vars {
+    blockedList = "${jsonencode(var.blocked_apis_list)}"
+  }
+}
+
+data "archive_file" "gcf_zip_file" {
+  type        = "zip"
+  output_path = "gcf.zip"
+
+  source {
+    content  = "${data.template_file.cf.rendered}"
+    filename = "index.js"
+  }
+
+  source {
+    content  = "${file("${path.module}/package.json")}"
+    filename = "package.json"
+  }
+}
+
 resource "google_storage_bucket" "gcf_source_bucket" {
   name    = "${var.gcs_bucket}"
   project = "${google_project.api_police_project.project_id}"
@@ -22,24 +46,4 @@ resource "google_storage_bucket_object" "gcf_zip_gcs_object" {
   name   = "gcf.zip"
   bucket = "${google_storage_bucket.gcf_source_bucket.name}"
   source = "${data.archive_file.gcf_zip_file.output_path}"
-}
-
-locals {
-  index_file   = "${var.path_to_gcf_source}/index.js"
-  package_file = "${var.path_to_gcf_source}/package.json"
-}
-
-data "archive_file" "gcf_zip_file" {
-  type        = "zip"
-  output_path = "${var.path_to_gcf_source}/gcf.zip"
-
-  source {
-    content  = "${file(local.index_file)}"
-    filename = "index.js"
-  }
-
-  source {
-    content  = "${file(local.package_file)}"
-    filename = "package.json"
-  }
 }

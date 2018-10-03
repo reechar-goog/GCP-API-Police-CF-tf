@@ -39,6 +39,7 @@ variable "gcs_bucket" {
   description = "bucket to hold cloud function source"
 }
 
-variable "path_to_gcf_source" {
-  description = "absolute path to git clone of API Police Source code"
+variable "blocked_apis_list" {
+  type        = "list"
+  description = "list of APIs to prevent being used"
 }
